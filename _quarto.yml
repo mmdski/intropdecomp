@@ -1,0 +1,4 @@
+project:
+  title: "Notes on Intro to PDEs"
+  output-dir: "_output"
+bibliography: "references.bib"
