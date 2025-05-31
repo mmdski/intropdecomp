@@ -1,20 +1,16 @@
 ---
-title: "Chapter 1: Setting the Scene"
+title: "Example 1.2"
 editor:
     render-on-save: true
 ---
 
-<details>
-<summary>Example 1.2</summary>
-## Example 1.2
-
-### PDE and Initial Condition
+## PDE and Initial Condition
 
 The problem is:
 $$u_t + x u_x = 0, \quad x \in \mathbb{R}, t > 0,$$
 $$u(x, 0) = \phi(x).$$
 
-### Method of Characteristics
+## Method of Characteristics
 The characteristic ODE:
 $$
 \frac{d}{dx}u\left(x, t\right) = u_t + u_x\frac{dx}{dt}
@@ -24,7 +20,7 @@ Solving:
 $$x(t) = x_0 e^t,$$
 $$x_0 = x e^{-t}.$$
 
-### Solution Along Characteristics
+## Solution Along Characteristics
 Along each characteristic:
 $$
 u(x(t), t) = \phi(x_0) = \phi(x e^{-t}).
@@ -34,7 +30,7 @@ $$
 u(x,t) = \phi(x e^{-t}).
 $$
 
-### Verification of Solution
+## Verification of Solution
 Using the chain rule:
 $$
 u(x,t) = \phi(f(x,t)), \quad f(x,t) = x e^{-t}.
@@ -47,8 +43,7 @@ $$
 u_t + x u_x = \phi'(f(x,t)) (-x e^{-t}) + x \phi'(f(x,t)) e^{-t} = 0.
 $$
 
-### Interpretation
+## Interpretation
 - $\phi$ stays constant along characteristics.
 - Characteristics spread out over time ($x(t) = x_0 e^t$).
 - Solution “stretches” initial data along characteristics.
-</details>

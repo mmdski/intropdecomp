@@ -1,0 +1,191 @@
+---
+title: "Exercise 1.3"
+editor:
+    render-on-save: true
+jupyter: python3
+---
+$$
+u'(t) = tu(t)(u(t) - 2)
+$$
+$$
+u(0) = u_0
+$$
+
+# a)
+## Problem
+Verify that
+
+$$
+u(t) = \frac{2u_0}{u_0 + (2-u_0)e^{t^2}}
+$$
+
+solves the differential equation.
+
+## Solution
+
+Taking the derivative of the given solution yields
+$$
+u'(t) = -\frac{4u_0\left(2-u_0\right)te^{t^2}}{\left[u_0+\left(2-u_0\right)e^{t^2}\right]^2}
+$$
+
+To verify the given solution is a solution to the differential equation, begin by substituting the solution into the differential equation.
+
+$$
+tu(t)(u(t) - 2) = t\frac{2u_0}{u_0 + (2-u_0)e^{t^2}}\left[\frac{2u_0}{u_0 + (2-u_0)e^{t^2}}
+-2\right]
+$$
+
+Simplifying the term in the bracket
+
+$$
+\frac{2u_0}{u_0 + (2-u_0)e^{t^2}} - 2 =
+\frac{2u_0 - 2u_0 - 2(2-u_0)e^{t^2}}{u_0 + (2-u_0)e^{t^2}} =
+\frac{-2(2-u_0)e^{t^2}}{u_0 + (2-u_0)e^{t^2}}
+$$
+
+$$
+tu(t)(u(t) - 2) = -\frac{4u_0(2-u_0)te^{t^2}}{u_0 + (2 - u_0) e^{t^2}}
+$$
+
+This is identical to the derivative. Next, verify the boundary condition.
+
+$$
+u(0) = \frac{2u_0}{u_0 + (2 - u_0)e^{0^2}} = \frac{2u_0}{2} = u_0
+$$
+
+The given solution is a solution to the differential equation.
+
+# b)
+
+## Problem
+
+Show that if $0 \le u_0 \le 2$, then $0 \le u(t) \le 2$ for all $t \ge 0$.
+
+## Solution
+
+When $u_0 = 0$,
+
+$$
+u(t) = \frac{2(0)}{0 + (2 - 0)e^{t^2}} = 0
+$$
+
+for all $t \ge 0$.
+
+When $u_0 = 2$,
+
+$$
+u(t) = \frac{2(2)}{2 + (2 - 2)e^{t^2}} = \frac{4}{2} = 2
+$$
+
+for all $t \ge 0$.
+
+Taking the derivative of $u$ with respect to $u_0$,
+
+$$
+\frac{d u}{du_0} = \frac{4e^{t^2}}{\left[u_0 + (2-u_0)e^{t^2}\right]^2}
+$$
+
+Since $\frac{du}{du_0} > 0$ for all $0 \le u_0 \le 2$ and $t \ge 0$, the extrema
+of $u$ along the interval $0 \le u_0 \le 2$ occur at the endpoints of the interval.
+
+Therefore, if $0 \le u_0 \le 2$, $0 \le u(t) \le 2$ for all $t \ge 0$ .
+
+# c)
+
+## Problem
+Show that if $u_0 > 2$, then $u(t) \rightarrow \infty$ as
+
+$$
+t \rightarrow \left(\ln \left(\frac{u_0}{u_0 - 2}\right)\right)^{1/2}.
+$$
+
+## Solution
+
+If $u_0 >2$, then $\left(\ln\left(\frac{u_0}{u_0-2}\right)\right)^{1/2}$ is defined.
+
+As $t \rightarrow \left(\ln \left(\frac{u_0}{u_0 - 2}\right)\right)^{1/2}$,
+
+$$
+u(t) \rightarrow \frac{2u_0}{u_0 + (2 - u_0)\exp{\left[\left(\ln \left(\frac{u_0}{u_0 - 2}\right)\right)^{1/2}\right]^2}}
+$$
+
+$$
+\exp{\left[\left(\ln \left(\frac{u_0}{u_0 - 2}\right)\right)^{1/2}\right]^2} =
+\frac{u_0}{u_0-2}
+$$
+
+$$
+u(t) \rightarrow \frac{2u_0}{u_0 + (2 - u_0)\frac{u_0}{(u_0 - 2)}} =
+\frac{2u_0}{u_0 - u_0}
+$$
+
+$$
+u(t) \rightarrow \frac{2u_0}{0} \rightarrow \infty
+$$
+
+```{python}
+# | echo: false
+import matplotlib.pyplot as plt
+import numpy as np
+
+
+def u(u0, t):
+    u = 2 * u0 / (u0 + (2 - u0) * np.exp(t**2))
+    if u0 > 2:
+        t_blow_up = np.sqrt(np.log(u0 / (u0 - 2)))
+        u[t > t_blow_up] = np.nan
+    return u
+
+
+xmax = 4
+t = np.linspace(0, xmax, num=100)
+u0 = 2
+eps = 1 / 1000
+plt.plot(t, u(u0 + eps, t))
+plt.plot(t, u(u0, t))
+plt.plot(t, u(u0 - eps, t))
+plt.xlim((0, xmax))
+plt.ylim((0, xmax))
+plt.xlabel("t")
+plt.ylabel("u(t)")
+plt.show()
+
+```
+
+# d)
+
+## Problem
+Suppose we are interested in the differential equation for $u_0$ close to 1, say
+$u_0 \in \left[0.9, 1.1\right]$. Would you say that the problem is stable for
+such data?
+
+## Solution
+
+```{python}
+# | echo: false
+import matplotlib.pyplot as plt
+import numpy as np
+
+
+def u(u0, t):
+    return 2 * u0 / (u0 + (2 - u0) * np.exp(t**2))
+
+
+t = np.linspace(0, 3)
+u0 = 1
+eps = 0.1
+plt.plot(t, u(u0 + eps, t), label="$u_0 = 1.1$")
+plt.plot(t, u(u0, t), label="$u_0$ = 1.0")
+plt.plot(t, u(u0 - eps, t), label="$u_0 = 0.9$")
+plt.xlim((0, 3))
+plt.ylim((0, 1.2))
+plt.xlabel("t")
+plt.ylabel("u(t)")
+plt.legend()
+plt.show()
+
+```
+
+The plot of the solution is shown above, with perturbations of the initial
+conditions shown. As shown, small perturbations in the initial condition results
+in small changes in the solution. Therefore, the problem is *stable*.
