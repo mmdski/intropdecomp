@@ -176,3 +176,5 @@ cython_debug/
 /env/
 /.quarto/
 /_output/
+
+.DS_Store
