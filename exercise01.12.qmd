@@ -1,0 +1,31 @@
+---
+title: "Exercise 1.12"
+editor:
+    render-on-save: true
+---
+
+# Problem
+
+Show that any solution of @eq-1.37 can be written in the form @eq-1.38.
+
+$$
+v_{\xi\eta} = 0
+$$ {#eq-1.37}
+
+$$
+v\left(\xi, \eta\right) = f\left(\xi\right) + g\left(\eta\right)
+$$ {#eq-1.38}
+
+# Solution
+
+$$
+\int v_{\xi\eta} d\xi = v_{\eta} = h(\eta)
+$$
+
+$$
+\int v_{\eta} d\xi = \int h(\eta) d\xi = v(\xi, \eta) = f(\xi) + g(\eta)
+$$
+
+$$
+v(\xi, \eta) = f(\xi) + g(\eta)
+$$
