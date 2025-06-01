@@ -1,0 +1,88 @@
+---
+title: "Exercise 1.11"
+editor:
+    render-on-save: true
+---
+
+Let $I$ denote the integral
+
+$$
+I = \int^\infty_{-\infty} e^{-x^2} dx.
+$$ {#eq-I}
+
+# a)
+
+## Problem
+
+Explain why
+
+$$
+I^2 = \int^\infty_{-\infty}\int^\infty_{-\infty} e^{-\left(x^2+y^2\right)} dx dy.
+$$
+
+## Solution
+
+Since @eq-I is integrated over one variable, squaring $I$ yields
+
+$$
+I^2 = II = \left(\int^\infty_{-\infty}e^{-x}dx\right)\left(\int^\infty_{-\infty}e^{-y}dy\right)
+$$
+
+The product of the integrals can be combined such that
+
+$$
+I^2 = \int^\infty_{-\infty}\int^\infty_{-\infty} e^{-\left(x^2 + y^2\right)} dx dy
+$$ {#eq-I2}
+
+# b)
+
+## Problem
+
+Use polar coordinates to show that $I = \sqrt{\pi}$.
+
+## Solution
+
+The following identities will be used to change @eq-I2 to polar coordinates.
+
+$$
+r^2 = x^2 + y^2
+$$
+
+$$
+dx dy = r dr d\theta
+$$
+
+Writing the integral @eq-I2 in terms of polar coordinates yields
+
+$$
+I^2 = \int^{2\pi}_{0}\int^\infty_0 e^{-r^2} r dr d\theta
+$$
+
+The bounds of the integrals were changed to reflect the bounds of the spaces of
+the variables $\theta$ and $r$.
+
+Carrying out the inner integral for $r$:
+
+$$
+\int^\infty_0 e^{-r^2} r dr =
+-\frac{1}{2}\left[\lim_{r \rightarrow \infty} e^{-r^2} - e^0\right] =
+\frac{1}{2}
+$$
+
+Carrying out the integral for $\theta$:
+
+$$
+\int^{2\pi}_0 \frac{1}{2} d\theta = \pi
+$$
+
+Therefore
+
+$$
+I^2 = \pi
+$$
+
+and
+
+$$
+I = \sqrt{\pi}
+$$
