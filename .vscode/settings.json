@@ -1,5 +1,5 @@
 {
-  "cSpell.words": ["mathbb"],
+  "cSpell.words": ["infty", "mathbb", "rightarrow"],
   "[quarto]": {
     "editor.wordWrap": "off"
   }
