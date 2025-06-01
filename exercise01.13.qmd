@@ -1,0 +1,165 @@
+---
+title: "Exercise 1.13"
+editor:
+    render-on-save: true
+---
+
+Consider the function $u(x, t)$ given by @eq-1.55.
+
+$$
+u(x,t) = \frac{1}{\sqrt{\pi}} \int_{-\infty}^{x/2\sqrt{t}} e^{-\theta^2} d\theta
+$$ {#eq-1.55}
+
+$$
+u_t(x, t) = u_{xx}(x, t), \qquad x\in\mathbb{R}, \ t>0
+$$ {#eq-heat}
+
+## a) {#sec-a}
+
+### Problem
+Verify directly that $u$ satisfies the heat equation @eq-heat for any
+$x\in\mathbb{R}$.
+
+### Solution
+
+Let $\phi(x, t) = \frac{x}{2\sqrt{t}}$.
+
+#### Find $u_t$
+$$
+u_t = \frac{1}{\sqrt{\pi}}e^{-\phi(x,t)^2}\phi_t
+$$
+
+$$
+\phi_t = -\frac{x}{4t^{3/2}}
+$$
+
+$$
+u_t = -\frac{x}{\sqrt{2\pi}t^{3/2}}e^{-\left(\frac{x}{2\sqrt{t}}\right)^2}
+$$ {#eq-ut}
+
+#### Find $u_{xx}$
+$$
+u_x = \frac{1}{\sqrt{\pi}}e^{-\phi(x,t)^2}\phi_x
+$$
+
+$$
+\phi_x = \frac{1}{2\sqrt{t}}
+$$
+
+$$
+u_x = \frac{1}{2\sqrt{\pi t}}e^{-\left(\frac{x}{2\sqrt{t}}\right)^2}
+$$
+
+$$
+u_{xx} = \frac{1}{2\sqrt{\pi t}}\frac{\partial}{\partial x}e^{-\left(\frac{x}{2\sqrt{t}}\right)^2}
+$$
+
+$$
+\frac{\partial}{\partial x}e^{-\phi(x,t)^2} = -2\phi e^{-\phi(x,t)^2}\phi_x
+$$
+
+$$
+-2\phi e^{-\phi(x,t)^2}\phi_x = -2\frac{x}{2\sqrt{t}}\frac{1}{2\sqrt{t}}e^{-\left(\frac{x}{2\sqrt{t}}\right)^2}
+= -\frac{x}{2t}e^{-\left(\frac{x}{2\sqrt{t}}\right)^2}
+$$
+
+$$
+u_{xx} = -\frac{x}{\sqrt{2\pi}t^{3/2}}e^{-\left(\frac{x}{2\sqrt{t}}\right)^2}
+$$ {#eq-uxx}
+
+#### Equate $u_t$ and $u_{xx}$
+
+@eq-ut is equal to @eq-uxx, therefore @eq-1.55 satisfies the heat equation.
+
+## b)
+
+### Problem
+
+Let $t>0$ be fixed. Show that $u(\cdot,t) \in C^{\infty}\left(\mathbb{R}\right)$.
+
+### Solution
+
+As shown in part [a](@sec-a), the first derivative of @eq-1.55 is continuously
+differentiable with respect to $x$. Each successive derivative with respect to
+$x$ will involve derivatives of $e^{-\left(\frac{x}{2\sqrt{t}}\right)^2}$, which
+is a smooth function, and all derivatives $\frac{\partial u^{n}}{\partial x^n}$
+exist and are continuous for any $n$.
+
+## c) {#sec-c}
+
+### Problem
+
+Show that
+
+$$
+u(0, t) = \frac{1}{2}
+$$
+
+for all $t > 0$.
+
+### Solution
+
+Setting $x = 0$, @eq-1.55 becomes
+
+$$
+u(0,t) = \frac{1}{\sqrt{\pi}} \int_{-\infty}^{0} e^{-\theta^2} d\theta
+$$
+
+Recall from Exercise 1.11,
+
+$$
+I = \int_{-\infty}^{\infty} e^{-\theta^2} d\theta = \sqrt{\pi}.
+$$
+
+$$
+\frac{1}{\sqrt{\pi}} \int_{-\infty}^{0} e^{-\theta^2} d\theta
+= \frac{1}{2\sqrt{\pi}}I
+= \frac{1}{2}
+$$
+
+Therefore,
+
+$$
+u(0,t) = \frac{1}{2}
+$$
+
+for all $t>0$.
+
+## d)
+
+### Problem
+
+Let $x\ne0$ be fixed. Show that
+
+$$
+\lim_{t\rightarrow0^+} u(x,t) = H(x).
+$$
+
+### Solution
+
+The Heaviside function $H(x)$ is defined as
+
+$$
+H(x) = \begin{cases}1,& x > 0\\ \frac{1}{2},& x = 0\\0,& x < 0\end{cases}
+$$
+
+Taking the limit of $u$ as $t$ approaches positive zero.
+$$
+\lim_{t\rightarrow 0^+}u(x,t) = \frac{1}{\sqrt{\pi}} \int_{-\infty}^{\lim_{t\rightarrow 0^+}x/2\sqrt{t}} e^{-\theta^2} d\theta
+$$
+
+When $x > 0$,
+$$
+u(x,t) \rightarrow \frac{1}{\sqrt{\pi}} \int_{-\infty}^{\infty} e^{-\theta^2} d\theta = 1
+$$
+
+When $x < 0$,
+$$
+u(x,t) \rightarrow \frac{1}{\sqrt{\pi}} \int_{-\infty}^{-\infty} e^{-\theta^2} d\theta = 0
+$$
+
+Therefore, also considering the result from part [c](@sec-c),
+
+$$
+\lim_{t \rightarrow 0^+} u(x,t) = H(x)
+$$
