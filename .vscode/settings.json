@@ -1,5 +1,17 @@
 {
-  "cSpell.words": ["infty", "mathbb", "rightarrow"],
+  "cSpell.words": [
+    "coeff",
+    "infty",
+    "linspace",
+    "mathbb",
+    "matplotlib",
+    "pyplot",
+    "rightarrow",
+    "xlabel",
+    "xlim",
+    "ylabel",
+    "ylim"
+  ],
   "[quarto]": {
     "editor.wordWrap": "off"
   }
