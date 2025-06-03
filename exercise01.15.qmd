@@ -1,0 +1,210 @@
+---
+title: "Exercise 1.15"
+editor:
+    render-on-save: true
+jupyter: python3
+---
+
+$$
+\begin{align}
+u'(t) &= u(t),\\
+u(0) &= 1.
+\end{align}
+$$ {#eq-1.18}
+
+## a)
+
+### Problem
+Let $0 \le (m + 1)\Delta t \le T$ and let $u(t)$ be the solution of @eq-1.18.
+Show that if $t_m = m\Delta t$, then
+
+$$
+\frac{u(t_{m + 1}) - u(t_m)}{\Delta t} = u(t_m) + \tau_m,
+$$
+
+where the truncation error $t_m$ satisfies
+
+$$
+\lvert t_m \rvert \le \frac{\Delta t}{2}e^T \qquad \text{for } 0 \le (m + 1)\Delta t \le T.
+$$
+
+### Solution
+
+The exact solution to @eq-1.18 is
+
+$$
+u(t) = e^t.
+$$
+
+The Taylor expansion of $u(t_{m+1})$ around $u(t_m)$ is
+$$
+u(t_{m+1}) = u(t_m) + \Delta t u'(t_m) + \frac{\Delta t^2}{2} u''(\xi_m),
+$$ {#eq-taylor}
+
+where $\xi_m \in [t_m, t_{m+1}]$ and $\frac{\Delta t^2}{2}u''(\xi_m)$ is the
+remainder term. The derivative terms are
+
+$$
+\begin{align}
+u'(t_m) =& e^{t_m} = u(t_m)\\
+u''(\xi_m) =& e^{\xi_m}.
+\end{align}
+$$ {#eq-d}
+
+Rearranging @eq-taylor and substituting @eq-d yields
+
+$$
+\frac{u(t_{m+1}) - u(t_m)}{\Delta t} = u(t_m) + \frac{\Delta t}{2}e^{\xi_m}.
+$$ {#eq-approx}
+
+Defining $\tau_m$ as
+
+$$
+\tau_m = \frac{\Delta t}{2}e^{\xi_m},
+$$
+
+@eq-approx can then be rewritten as
+
+$$
+\frac{u(t_{m+1}) - u(t_m)}{\Delta t} = u(t_m) + \tau_m
+$$
+
+## b)
+
+### Problem
+Assume that $\lbrace{ v_m \rbrace}$ is the corresponding forward Euler solution
+given by
+
+$$
+v_{m+1} = \left(1+\Delta t\right)v_m, \qquad v_0 = 1,
+$$
+
+and let $w_m = u_m - v_m$ be the error at time $t_m = m \Delta t$. Explain why
+$\lbrace w_m \rbrace$ satisfies the difference equation
+
+$$
+w_{m+1} = \left(1 + \Delta t\right)w_m + \Delta t\tau_m, \qquad w_0 = 0.
+$$
+
+### Solution
+
+$$
+\begin{align}
+w_{m+1} = u_{m+1} - v_{m+1} = & (1+\Delta t)u_m + \Delta t\tau_m - (1+\Delta t)v_m \\
+=&(1+\Delta t)(u_m - v_m) + \Delta t \tau_m
+\end{align}
+$$
+
+$$
+w_{m+1} = (1+\Delta t)w_m + \Delta t\tau_m
+$$
+
+At $m = 0$,
+
+$$
+w_0 = u_0 - v_0 = 1 - 1
+$$
+
+$$
+w_0 = 0
+$$
+
+## c)
+### Problem
+Use induction on $m$ to prove that
+
+$$
+\lvert w_m\rvert \le \frac{\Delta t}{2}e^T(e^{t_m} - 1) \qquad \text{for } 0
+\le t_m \le T.
+$$
+
+How does this result compare to what was obtained in Table 1.1?
+
+### Solution
+
+$$
+w_0 = 0
+$$
+
+$$
+\begin{align}
+w_1 =& (1 + \Delta t)w_0 + \Delta t \tau_0 \\=& \Delta t \tau_0
+\end{align}
+$$
+
+$$
+\begin{align}
+w_2 =& (1 + \Delta t)w_1 + \Delta t \tau_1 \\
+=& (1 + \Delta t)\Delta t \tau_0 + \Delta t \tau_1
+\end{align}
+$$
+
+$$
+\begin{align}
+w_3 =& (1 + \Delta t)w_2 + \Delta t \tau_2 \\
+=&(1 + \Delta t)[(1 + \Delta t)\Delta t \tau_0 + \Delta t \tau_1]
++ \Delta t \tau_2 \\
+=& (1+\Delta t)^2\Delta t \tau_0 + (1 + \Delta t)\Delta t\tau_1 + \Delta t\tau_2
+\end{align}
+$$
+
+$$
+w_m = \sum^{m-1}_{j = 0}(1+\Delta t)^{m - 1 - j}\Delta t\tau_j
+$$
+
+Since $\lvert \tau_j\rvert \le \frac{\Delta t}{2}e^T$,
+
+$$
+\lvert w_m \rvert \le \frac{\Delta t}{2}e^T\sum^{m-1}_{j = 0}(1+\Delta t)^{m - 1 - j}\Delta t
+$$
+
+$$
+S = \sum^{m-1}_{j = 0}(1+\Delta t)^{m - 1 - j}\Delta t
+= \frac{(1 + \Delta t)^m - 1}{(1 + \Delta t) - 1}\Delta t
+= (1 + \Delta t)^m - 1
+$$
+
+$$
+(1+\Delta t)^m = e^{\log(1+\Delta t)^m} = e^{m\log(1+\Delta t)}
+$$
+
+For small $\Delta t$,
+
+$$
+\log(1+\Delta t) \approx \Delta t.
+$$
+
+Since $m\Delta t = t_m$,
+
+$$
+(1+\Delta t)^m \approx e^{t_m}
+$$
+
+for small $\Delta t$.
+
+$$
+\sum^{m-1}_{j = 0}(1+\Delta t)^{m - 1 - j}\Delta t \approx e^{t_m} - 1
+$$
+
+$$
+\lvert w_m\rvert \le \frac{\Delta t}{2}e^T(e^{t_m} - 1)
+$$
+
+At time $T$, $t_m = T$, so
+
+$$
+\lvert w_m\rvert \le \frac{\Delta t}{2}e^T(e^T - 1)
+$$
+
+```{python}
+# |echo: false
+import numpy as np
+
+t = 1.0
+err_coeff = round(np.exp(t) * (np.exp(t) - 1) / 2, 3)
+```
+
+The theoretical analysis shows, at $T=1$,
+$E(\Delta t) \approx `{python} float(err_coeff)`\Delta t$.
+This is greater than the experimental analysis that shows
+$E(\Delta t) \approx 1.359\Delta t$.
