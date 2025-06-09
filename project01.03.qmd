@@ -1,0 +1,650 @@
+---
+title: "Project 1.3"
+editor:
+    render-on-save: true
+jupyter: python3
+---
+
+Consider the problem
+
+$$
+\begin{align}
+u'(t) =& -u(t), \\
+u(0) =& 1
+\end{align}
+$$ {#eq-diff-eq}
+
+which has the analytical solution $u(t) = e^{-t}$.
+
+## (a)
+
+### Problem
+
+Show that the numerical solution computed by the forward Euler method is given
+by
+
+$$
+v_m = (1 - \Delta t)^m, \qquad m = 0, 1,\dots
+$$ {#eq-forward-euler}
+
+### Solution
+
+The scheme for the forward Euler method has been developed for a problem of the
+form
+
+$$
+\begin{align}
+u'(t) =& f\left(u(t)\right) \\
+u(0) =& u_0,
+\end{align}
+$$ {#eq-form}
+
+and given by
+
+$$
+\begin{align}
+v_{m+1} =& v_m + \Delta tf(v_m), \qquad m = 0, 1, \dots \\
+v_0 =& u_0.
+\end{align}
+$$ {#eq-gen-fwd-euler}
+
+Since $f\left(u(t)\right) = -u(t)$, given in @eq-diff-eq, @eq-gen-fwd-euler becomes
+
+$$
+\begin{align}
+v_{m+1} =& v_m - \Delta t v_m \\
+=& (1 - \Delta t)v_m
+\end{align}
+$$
+
+$v_m$ for $m = 0, 1, 2$ are shown below.
+
+$$
+v_0 = 1
+$$
+
+$$
+v_1 = (1-\Delta t)v_0 = (1 - \Delta t)
+$$
+
+$$
+v_2 = (1 - \Delta t)v_1 = (1 - \Delta t)(1 - \Delta t) = (1 - \Delta t)^2
+$$
+
+The pattern is clearly
+
+$$
+v_m = (1-\Delta t)^m, \qquad m=0,1,\dots,
+$$
+
+which is identical to @eq-forward-euler.
+
+## (b)
+
+### Problem
+
+Show that $v_m$ converges toward the correct solution at $t = 1$ as $\Delta t$
+tends to zero.
+
+### Solution
+
+The simulation time $t_m$ is defined by
+$$
+t_m = m\Delta t
+$$
+
+Rearranging yields
+$$
+m = \frac{t_m}{\Delta t}
+$$ {#eq-m}
+
+Substituting @eq-m into @eq-forward-euler, and using $t_m = 1$, yields
+
+$$
+v_m = (1 - \Delta t)^{1/t}
+$$
+
+Using the standard limit identity,
+
+$$
+\lim_{x \to 0} (1 + x)^{1/x} = e
+$$
+
+and we let $x = -\Delta t$, so as $\Delta t \to 0$, we have
+
+$$
+(1 - \Delta t)^{1/\Delta t} = (1 + x)^{1/x} \to e^{-1}.
+$$
+
+Therefore,
+
+$$
+\lim_{\Delta t \to 0} v_m = e^{-1}.
+$$
+
+This shows that the numerical solution $v_m\to u(1)$ as $\Delta t \to 0$,
+since $u(1) = e^{-1}$.
+
+## (c)
+### Problem
+In the derivation of the forward Euler method on page 8, we argued that
+
+$$
+\frac{u(t_{m+1}) - u(t_m)}{\Delta t} \approx u'(t_m) = f\left(u(t_m)\right);
+$$
+
+see (1.15). Show, in a similar manner, that we have
+
+$$
+\frac{u(t_{m+1}) - u(t_m)}{\Delta t} \approx u'(t_{m+1})
+= f\left(u(t_{m+1})\right).
+$$
+
+### Solution
+
+Defining discrete time levels $t_m = m\Delta t$, where $m = 0,1,\dots$
+
+Suppose that $u$ is a twice continuously differentiable function. Then, for
+$\Delta t > 0$, we have
+
+$$
+u(t_m) = u(t_{m+1}) - \Delta t u'(t_{m+1}) +
+\frac{1}{2}\left(\Delta t\right)^2u''(t + \xi)
+$$
+
+for some $\xi \in \left[0, \Delta t\right]$. Hence we have
+
+$$
+\frac{u(t_{m+1}) - u(t_m)}{\Delta t} = u'(t_{m+1}) + O(\Delta t).
+$$ {#eq-taylor-back}
+
+By @eq-form and @eq-taylor-back we have
+$$
+\frac{u(t_{m+1}) - u(t_m)}{\Delta t} \approx u'(t_{m+1})
+= f\left(u(t_{m+1})\right).
+$$ {#eq-pt-c}
+
+## (d)
+### Problem
+
+Use @eq-pt-c to derive the backward Euler method,
+
+$$
+v_{m+1} - \Delta t f(v_{m+1}) = v_m, \qquad m = 0, 1, \dots.
+$$
+
+### Solution
+Require that
+
+$$
+\frac{v_{m+1} - v_m}{\Delta t} = f(v_{m+1}).
+$$
+
+Move all values on in time level $m+1$ on the left hand side and values of time
+level $m$ on the right hand side.
+
+$$
+v_{m+1} - \Delta t f(v_{m+1}) = v_m
+$$
+
+## (e)
+### Problem
+Apply the backward Euler method to the problem @eq-diff-eq and show that
+
+$$
+v_m = \frac{1}{(1 + \Delta t)^m}, \qquad m = 0, 1, \dots
+$$ {#eq-backward-euler}
+
+### Solution
+
+$$
+f(v_{m+1}) = -v_{m+1}
+$$
+
+$$
+\begin{align}
+v_{m+1} + \Delta t v_{m+1} =& v_m \\
+v_0 =& 1
+\end{align}
+$$
+
+$$
+v_{m+1} = \frac{v_m}{1+\Delta t}
+$$
+
+$$
+\begin{align}
+v_0 =& 1 \\
+v_1 =& \frac{v_0}{1 + \Delta t} = \frac{1}{1 + \Delta t} \\
+v_2 =& \frac{v_1}{1 + \Delta t} = \frac{1}{(1 + \Delta t)^2} \\
+\vdots& \\
+v_{m+1} =& \frac{v_m}{1 + \Delta t} = \frac{1}{(1 + \Delta t)^{m+1}}
+\end{align}
+$$
+
+By induction,
+
+$$
+v_{m} = \frac{1}{(1+\Delta t)^m}
+$$
+
+## (f)
+### Problem
+Explain why
+$$
+\frac{u(t_{m+1}) - u(t_m)}{\Delta t} \approx
+\frac{1}{2}\left(f(u(t_{m+1})) + f(u(t_m))\right)
+$$
+
+and use this to derive the scheme
+
+$$
+v_{m+1} - \frac{1}{2}\Delta t f(v_{m+1})
+= v_m + \frac{1}{2}\Delta t f(v_m), \qquad m = 0,1,\dots
+$$
+
+### Solution
+
+$$
+\begin{align}
+u(t_{m+1}) =& u(t_m) + \Delta t u'(t_m) + H.O.T. \\
+u(t_{m}) =& u(t_{m+1}) - \Delta t u'(t_{m+1}) + H.O.T. \\
+\end{align}
+$$
+
+$$
+u(t_{m+1}) - u(t_m) = u(t_m) - u(t_{m+1}) +
+\Delta t u'(t_{m+1}) + \Delta t u'(t_m) +
+H.O.T.
+$$
+
+$$
+2(u(t_{m+1}) - u(t_m)) = \Delta t (u'(t_{m+1}) + u(t_m)) + H.O.T.
+$$
+
+$$
+\frac{u(t_{m+1}) - u(t_m)}{\Delta t} = \frac{1}{2}(u'(t_{m+1}) + u'(t_m))
++ H.O.T.
+$$
+
+Using @eq-form, dropping the $H.O.T.$, and rearranging yields the result
+$$
+\frac{u(t_{m+1}) - u(t_m)}{\Delta t} \approx
+\frac{1}{2}\left(f(u(t_{m+1})) + f(u(t_m))\right)
+$$
+
+$$
+\frac{v_{m+1}-v_m}{\Delta t} = \frac{1}{2} \left(f(v_{m+1}) + f(v_m)\right)
+$$
+
+$$
+\begin{align}
+v_{m+1} - \frac{1}{2}\Delta t f(v_{m+1}) =& v_m + \frac{1}{2}\Delta t f(v_m)
+\qquad m = 0, 1,\dots \\
+v_0 =& u_0
+\end{align}
+$$ {#eq-pt-f-scheme}
+
+## (g)
+### Problem
+
+Apply @eq-pt-f-scheme to @eq-diff-eq and show that
+
+$$
+v_m = \left(\frac{2 - \Delta t}{2 + \Delta t}\right)^m.
+$$ {#eq-crank-nicolson}
+
+### Solution
+
+Since, from @eq-diff-eq and @eq-form, $f(u(t)) = -u(t)$,
+
+$$
+v_{m+1} + \frac{1}{2}\Delta t v_{m+1} = v_m - \frac{1}{2}\Delta t v_m
+$$
+
+$$
+(2 + \Delta t)v_{m+1} = (2 - \Delta t)v_m
+$$
+
+$$
+v_{m+1} = \frac{2 - \Delta t}{2 + \Delta t}v_m
+$$
+
+$$
+\begin{align}
+v_0 =& 1 \\
+v_1 =& \frac{2 - \Delta t}{2 + \Delta t}v_0 =
+    \frac{2 - \Delta t}{2 + \Delta t} \\
+v_2 =& \frac{2 - \Delta t}{2 + \Delta t}v_1 =
+    \left(\frac{2 - \Delta t}{2 + \Delta t}\right)^2 \\
+&\vdots \\
+v_{m+1} =& \frac{2 - \Delta t}{2 + \Delta t}v_m =
+    \left(\frac{2 - \Delta t}{2 + \Delta t}\right)^{m+1}
+\end{align}
+$$
+
+By induction,
+
+$$
+v_m = \left(\frac{2 - \Delta t}{2 + \Delta t}\right)^m, \qquad m = 0, 1 \dots
+$$
+
+## (h) {#part-h}
+### Problem
+Compare the accuracy of the three methods by computing approximations to the
+solutions of @eq-diff-eq at $t=1$. Use the technique displayed in Table 1.1 and
+Project 1.1 to argue that the errors when using the schemes @eq-forward-euler,
+@eq-backward-euler, and @eq-crank-nicolson are $O(\Delta t)$, $O(\Delta t)$, and
+$O((\Delta t)^2)$ respectively.
+
+### Solution
+
+Since $m = \frac{t_m}{\Delta t}$, and $t_m = 1$, $m = \frac{1}{\Delta t}$.
+
+$$
+\alpha = \frac{\log(e_{h_1}/e_{h_2})}{\log(h_1/h_2)}
+$$
+
+```{python}
+import pandas as pd
+import numpy as np
+
+dt = np.array([1 / 10**1, 1 / 10**2, 1 / 10**3, 1 / 10**4])
+m = (1 / dt).astype(int)
+
+solution = np.exp(-1)
+```
+
+```{python}
+
+
+```
+
+#### Forward-Euler
+$$
+v_m = (1 - \Delta t)^m
+$$
+
+```{python}
+forward_euler = (1 - dt) ** m
+```
+
+```{python}
+# | echo: false
+fe_error = np.abs(forward_euler - solution)
+fe_alpha = np.full_like(fe_error, np.nan)
+fe_alpha[1:] = np.log(fe_error[1:] / fe_error[:-1]) / np.log(dt[1:] / dt[:-1])
+fe_df = pd.DataFrame(
+    {"Δt": dt, "E(Δt)": fe_error, "E(Δt)/Δt": fe_error / dt, "⍺": fe_alpha}
+)
+fe_df.style.format(
+    {
+        "Δt": "{:.1e}",
+        "E(Δt)": "{:.3e}",
+    }
+).hide(axis="index")
+```
+
+#### Backward-Euler
+$$
+v_m = \frac{1}{(1+\Delta t)^m}
+$$
+
+```{python}
+backward_euler = 1 / (1 + dt) ** m
+```
+```{python}
+# |echo: false
+be_error = np.abs(backward_euler - solution)
+be_alpha = np.full_like(be_error, np.nan)
+be_alpha[1:] = np.log(be_error[1:] / be_error[:-1]) / np.log(dt[1:] / dt[:-1])
+be_df = pd.DataFrame(
+    {"Δt": dt, "E(Δt)": be_error, "E(Δt)/Δt": be_error / dt, "⍺": be_alpha}
+)
+
+be_df.style.format(
+    {
+        "Δt": "{:.1e}",
+        "E(Δt)": "{:.3e}",
+    }
+).hide(axis="index")
+```
+
+#### Crank-Nicolson
+$$
+v_m = \left(\frac{2 - \Delta t}{2 + \Delta t}\right)^m
+$$
+
+```{python}
+crank_nicolson = ((2 - dt) / (2 + dt)) ** m
+```
+
+```{python}
+# |echo: false
+cn_error = np.abs(crank_nicolson - solution)
+cn_alpha = np.full_like(cn_error, np.nan)
+cn_alpha[1:] = np.log(cn_error[1:] / cn_error[:-1]) / np.log(dt[1:] / dt[:-1])
+cn_df = pd.DataFrame(
+    {"Δt": dt, "E(Δt)": cn_error, "E(Δt)/Δt": cn_error / dt, "⍺": cn_alpha}
+)
+cn_df.style.format(
+    {
+        "Δt": "{:.1e}",
+        "E(Δt)": "{:.3e}",
+        "E(Δt)/Δt": "{:.3e}",
+    }
+).hide(axis="index")
+```
+
+## (i)
+
+### Problem
+Implement the schemes discussed above for $f(v) = -v$. Check the correctness of
+your implementation by using your code to generate approximations of @eq-diff-eq
+
+### Solution
+
+The schemes for $f(v) = -v$ have been implemented for [Part (h)](#part-h). As
+shown in the tables, the error decreases with decreasing $\Delta t$.
+
+## (j)
+### Problem
+Generalize your codes to the problem
+
+$$
+\begin{align}
+u'(t) =& -u^2(t), \\
+u(0) =& 1.
+\end{align}
+$$ {#eq-pt-j-ode}
+
+### Solution
+
+Import the `newton` function from SciPy for the implicit schemes
+
+```{python}
+# |echo: true
+# | restart: true
+from scipy.optimize import newton
+```
+
+#### Forward Euler
+
+Repeating @eq-gen-fwd-euler, the general form of the forward Euler scheme:
+$$
+\begin{align}
+v_{m+1} =& v_m + \Delta t f(v_m), \qquad m = 0, 1, \dots \\
+v_0 =& u_0
+\end{align}
+$$
+
+```{python}
+def fw_euler_step(v_m, f, dt):
+    return v_m + dt*f(v_m)
+```
+
+#### Backward Euler
+
+$$
+\begin{align}
+v_{m+1} - \Delta t f(v_{m+1}) =& v_m, \qquad m=0,1,\dots \\
+v_0 =& u_0
+\end{align}
+$$
+
+```{python}
+def bw_euler_step(v_m, f, dt):
+    return newton(lambda v_next: v_next - dt * f(v_next) - v_m, v_m, tol=1e-15)
+```
+
+#### Crank-Nicolson
+
+$$
+\begin{align}
+v_{m+1} - \frac{1}{2}\Delta t f(v_{m+1}) =& v_m + \frac{1}{2}\Delta t f(v_m)
+\qquad m = 0, 1,\dots \\
+v_0 =& u_0
+\end{align}
+$$
+
+```{python}
+def cn_step(v_m, f, dt):
+    return newton(
+        lambda v_next: v_next - 0.5 * dt * f(v_next) - v_m - 0.5 * dt * f(v_m),
+        v_m,
+        tol=1e-15,
+    )
+```
+
+## (k)
+### Problem
+Derive the exact solution to @eq-pt-j-ode and use this to study the error of the
+three schemes at $t = 1$. Do the conclusions of [(h)](#part-h) above also apply
+to this nonlinear problem?
+
+```{python}
+dt_array = np.array([1 / 10**1, 1 / 10**2, 1 / 10**3, 1 / 10**4])
+m_array = (1 / dt).astype(int)
+```
+
+### Solution
+
+$$
+\frac{du}{dt} = -u^2
+$$
+
+$$
+\int u^{-2} du = -t
+$$
+
+$$
+-u^{-1} = -t + C
+$$
+
+$$
+u = \frac{1}{C_{1} + 1}
+$$
+
+$$
+u(0) = 1 \Rightarrow \frac{1}{C_1 + 1} = 1 \Rightarrow C_1 = 1
+$$
+
+The exact solution to @eq-pt-j-ode is
+
+$$
+u(t) = \frac{1}{1 + t}.
+$$ {#eq-pt-j-exact}
+
+At $t=1$, @eq-pt-j-exact is
+
+$$
+u(1) = \frac{1}{2}.
+$$
+
+```{python}
+exact = 0.5
+```
+
+#### Forward Euler
+```{python}
+fw_euler_res = np.zeros_like(dt_array)
+
+for j, (dt, m) in enumerate(zip(dt_array, m_array)):
+    v_m = 1
+    for i in range(m):
+        v_m = fw_euler_step(v_m, lambda v: -(v**2), dt)
+    fw_euler_res[j] = v_m
+```
+
+```{python}
+# | echo: false
+fw_error = np.abs(fw_euler_res - exact)
+fw_alpha = np.full_like(fw_error, np.nan)
+fw_alpha[1:] = np.log(fw_error[1:] / fw_error[:-1]) / np.log(
+    dt_array[1:] / dt_array[:-1]
+)
+fw_df = pd.DataFrame({"Δt": dt_array, "E(Δt)": fw_error, "⍺": fw_alpha})
+fw_df.style.format(
+    {
+        "Δt": "{:.1e}",
+        "E(Δt)": "{:.3e}",
+    }
+).hide(axis="index")
+```
+
+#### Backward Euler
+```{python}
+bw_euler_res = np.zeros_like(dt_array)
+
+for j, (dt, m) in enumerate(zip(dt_array, m_array)):
+    v_m = 1
+    for i in range(m):
+        v_m = bw_euler_step(v_m, lambda v: -(v**2), dt)
+    bw_euler_res[j] = v_m
+```
+
+```{python}
+# | echo: false
+bw_error = np.abs(bw_euler_res - exact)
+bw_alpha = np.full_like(bw_error, np.nan)
+bw_alpha[1:] = np.log(bw_error[1:] / bw_error[:-1]) / np.log(
+    dt_array[1:] / dt_array[:-1]
+)
+bw_df = pd.DataFrame({"Δt": dt_array, "E(Δt)": bw_error, "⍺": bw_alpha})
+bw_df.style.format(
+    {
+        "Δt": "{:.1e}",
+        "E(Δt)": "{:.3e}",
+    }
+).hide(axis="index")
+```
+
+#### Crank-Nicolson
+```{python}
+cn_res = np.zeros_like(dt_array)
+
+for j, (dt, m) in enumerate(zip(dt_array, m_array)):
+    v_m = 1
+    for i in range(m):
+        v_m = cn_step(v_m, lambda v: -(v**2), dt)
+    cn_res[j] = v_m
+```
+
+```{python}
+# | echo: false
+cn_error = np.abs(cn_res - exact)
+cn_alpha = np.full_like(cn_error, np.nan)
+cn_alpha[1:] = np.log(cn_error[1:] / cn_error[:-1]) / np.log(
+    dt_array[1:] / dt_array[:-1]
+)
+cn_df = pd.DataFrame({"Δt": dt_array, "E(Δt)": cn_error, "⍺": cn_alpha})
+cn_df.style.format(
+    {
+        "Δt": "{:.1e}",
+        "E(Δt)": "{:.3e}",
+    }
+).hide(axis="index")
+```
+
+As shown in the tables, the conclusions of [(h)](#part-h) apply for this
+nonlinear problem.
