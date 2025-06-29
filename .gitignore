@@ -178,3 +178,6 @@ cython_debug/
 /_output/
 
 .DS_Store
+
+Manifest.toml
+*.quarto_ipynb

@@ -1,18 +1,26 @@
 {
   "cSpell.words": [
     "coeff",
+    "eachindex",
+    "hcat",
     "infty",
+    "isnan",
     "linspace",
     "mathbb",
     "matplotlib",
     "pyplot",
     "rightarrow",
+    "sprintf",
     "xlabel",
     "xlim",
+    "xlims",
     "ylabel",
-    "ylim"
+    "ylim",
+    "ylims"
   ],
   "[quarto]": {
     "editor.wordWrap": "off"
-  }
+  },
+  "python.terminal.activateEnvInCurrentTerminal": false,
+  "python.terminal.activateEnvironment": false
 }

@@ -2,7 +2,7 @@
 title: "Exercise 1.15"
 editor:
     render-on-save: true
-jupyter: python3
+engine: julia
 ---
 
 $$
@@ -196,15 +196,13 @@ $$
 \lvert w_m\rvert \le \frac{\Delta t}{2}e^T(e^T - 1)
 $$
 
-```{python}
-# |echo: false
-import numpy as np
-
+```{julia}
+#| echo: false
 t = 1.0
-err_coeff = round(np.exp(t) * (np.exp(t) - 1) / 2, 3)
+err_coeff = round(exp(t) * (exp(t) - 1) / 2, digits=3);
 ```
 
 The theoretical analysis shows, at $T=1$,
-$E(\Delta t) \approx `{python} float(err_coeff)`\Delta t$.
+$E(\Delta t) \approx$ `{julia} err_coeff` $\Delta t$.
 This is greater than the experimental analysis that shows
 $E(\Delta t) \approx 1.359\Delta t$.
